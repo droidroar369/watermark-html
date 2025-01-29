@@ -15,7 +15,7 @@ var logo_chrgd= false;
 
 //Util variables
 var f_name;
-var transparency= 25; //Percentage
+var opacity= 25; //Percentage
 var scale=0.3; // 1=actual size of logo
 
 //**************
@@ -103,7 +103,7 @@ logo_btn.addEventListener("change", (ev)=> {
           var logo_data= ctx_logo.getImageData(0,0,w,h);
           var data= logo_data.data;
           for(var i=3; i<data.length; i+=4) {
-            data[i]= Math.round(255* transparency/100);
+            data[i]= Math.round(255* opacity/100);
           }
           logo_data.data = data;
           ctx_logo.putImageData(logo_data,0,0);
