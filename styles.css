@@ -24,7 +24,7 @@ body {
   color: rgba(255,255,120,1); /* Text color */
   position: relative;
   overflow: hidden;
-  width: 100%; /* Fullwidth */
+  width: 98%; /* Fullwidth */
   padding: 15px; /* Intern spacing */
   border: none; /* No border */
   border-radius: 20px; /* Rounded corners */
@@ -54,7 +54,7 @@ body {
   color: rgba(141,141,72,1); /* Text color */
   position: relative;
   overflow: hidden;
-  width: 100%; /* Fullwidth */
+  width: 98%; /* Fullwidth */
   padding: 15px; /* Intern spacing */
   border: none; /* No border */
   border-radius: 20px; /* Rounded corners */
