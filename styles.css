@@ -9,7 +9,7 @@ body {
 
 
 #buttons-container {
-  width: 98%;
+  width: 95%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -24,7 +24,7 @@ body {
   color: rgba(255,255,120,1); /* Text color */
   position: relative;
   overflow: hidden;
-  width: 98%; /* Fullwidth */
+  width: 100%; /* Fullwidth */
   padding: 15px; /* Intern spacing */
   border: none; /* No border */
   border-radius: 20px; /* Rounded corners */
@@ -54,7 +54,7 @@ body {
   color: rgba(141,141,72,1); /* Text color */
   position: relative;
   overflow: hidden;
-  width: 98%; /* Fullwidth */
+  width: 100%; /* Fullwidth */
   padding: 15px; /* Intern spacing */
   border: none; /* No border */
   border-radius: 20px; /* Rounded corners */
