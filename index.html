@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Draw a line in uploaded image</title>
+
+<link href="styles.css" type="text/css" rel="StyleSheet">
+</head>
+
+<body>
+
+<div id="buttons-container">
+   <div class="button-mask">
+     Upload an image!
+     <input type="file" accept="image/*" id="img_btn">
+   </div>
+   <div class="button-mask-disabled">
+     Upload your logo!
+     <input type="file" accept="image/*" disabled="true" id="logo_btn">
+   </div>
+   <div class="button-mask-disabled">
+     Download
+     <input type="button" value="Download" disabled="true" id="dwnl_btn">
+   </div>
+</div>
+
+
+<canvas id="cnvs01"></canvas>
+<canvas id="cnvs02" hidden></canvas>
+
+
+
+
+<script src="functionalities.js" type="text/javascript"></script>
+</body>
+</html>

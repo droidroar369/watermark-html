@@ -1,0 +1,89 @@
+body {
+  background-color: #777;
+  background-image: linear-gradient(#fd98e8 10%, #01019b 100%);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+
+
+#buttons-container {
+  width: 98%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-content: flex-start;
+  gap: 20px;
+}
+
+
+.button-mask {
+  background-color: green; /* Green background color */
+  background-image: linear-gradient(to right, rgba(0,0,160,1) 0%, green 33%, green 66%, rgba(0,0,160,1) 100%);
+  color: rgba(255,255,120,1); /* Text color */
+  position: relative;
+  overflow: hidden;
+  width: 100%; /* Fullwidth */
+  padding: 15px; /* Intern spacing */
+  border: none; /* No border */
+  border-radius: 20px; /* Rounded corners */
+  font-size: 80px; /* Font size */
+  font-family: EB Garamond, Arial;
+  text-align: center;
+  /*max-width: 400px; /* Maxwidth for bigscreens */
+}
+
+
+.button-mask input/*[type="file"]*/ {
+  font-size: 80px; /* Big-size letters for easy visualization */
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0; /* Hides the button */
+  cursor: pointer;
+}
+
+
+
+
+.button-mask-disabled {
+  background-color: rgba(50,80,50,1); /* Green background color */
+  color: rgba(141,141,72,1); /* Text color */
+  position: relative;
+  overflow: hidden;
+  width: 100%; /* Fullwidth */
+  padding: 15px; /* Intern spacing */
+  border: none; /* No border */
+  border-radius: 20px; /* Rounded corners */
+  font-size: 80px; /* Font size */
+  font-family: EB Garamond, Arial;
+  text-align: center;
+  /*max-width: 400px; /* Maxwidth for bigscreens */
+}
+
+
+.button-mask-disabled input/*[type="file"]*/ {
+  font-size: 80px; /* Big-size letters for easy visualization */
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0; /* Hides the button */
+  cursor: not-allowed;
+}
+
+
+
+
+
+
+
+
+
+
+
+
