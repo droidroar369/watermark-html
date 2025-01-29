@@ -15,6 +15,7 @@ var logo_chrgd= false;
 
 //Util variables
 var f_name;
+var W, H;
 var opacity= 25; //Percentage
 var scale=0.3; // 1=actual size of logo
 
@@ -48,6 +49,7 @@ img_btn.addEventListener("change", (ev)=> {
           // Adjust size of image's canvas
           cnv.width = img.width;
           cnv.height = img.height;
+          W= cnv.width; H= cnv.height;
           // Draw the image in the canvas
           ctx.drawImage(img, 0, 0);
 
@@ -90,8 +92,6 @@ logo_btn.addEventListener("change", (ev)=> {
       const img = new Image();
       
       img.onload = () => {
-          //Width and height of base image
-          var W=cnv.width; var H=cnv.height;
           //Width and height of LOGO image
           var w=img.width; var h=img.height;
           
