@@ -141,10 +141,13 @@ dwnl_btn.addEventListener('click', (ev) => {
             const f_nm= outp[1];
             const extnsn= outp[2].substring(1);
             
-            //Download image
+            //Download image (HTML method)
             link.download = `${f_nm}_mod.${extnsn}`;
             link.href = cnv.toDataURL(`image/${extnsn}`);
             link.click();
+            
+            //Download (Telegram method)
+            window.Telegram.WebApp.showAlert("Native Telegram Downlod is still no available");
 });
 
 
