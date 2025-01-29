@@ -20,7 +20,7 @@ body {
 
 .button-mask {
   background-color: green; /* Green background color */
-  background-image: linear-gradient(to right, rgba(0,0,160,1) 0%, green 33%, green 66%, rgba(0,0,160,1) 100%);
+  background-image: linear-gradient(to right, green 0%, rgba(0,0,160,1) 33%, rgba(0,0,160,1) 66%, green 100%);
   color: rgba(255,255,120,1); /* Text color */
   position: relative;
   overflow: hidden;
