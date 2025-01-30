@@ -1,9 +1,9 @@
 body {
-  background-color: #777;
-  background-image: linear-gradient(#fd98e8 10%, #01019b 100%);
+  background: linear-gradient(#fd98e8 10%, #01019b 100%), #777;
   display: flex;
   justify-content: center;
   flex-direction: column;
+  gap: 40px;
 }
 
 
@@ -18,9 +18,9 @@ body {
 }
 
 
+
 .button-mask {
-  background-color: green; /* Green background color */
-  background-image: linear-gradient(to right, green 0%, rgba(0,0,160,1) 33%, rgba(0,0,160,1) 66%, green 100%);
+  background: linear-gradient(to right, green 0%, rgba(0,0,160,1) 33%, rgba(0,0,160,1) 66%, green 100%), green;
   color: rgba(255,255,120,1); /* Text color */
   position: relative;
   overflow: hidden;
@@ -29,7 +29,7 @@ body {
   border: none; /* No border */
   border-radius: 20px; /* Rounded corners */
   font-size: 42px; /* Font size */
-  font-family: EB Garamond, Arial;
+  font-family: EB Garamond, Verdana, Arial;
   text-align: center;
   /*max-width: 400px; /* Maxwidth for bigscreens */
 }
@@ -59,7 +59,7 @@ body {
   border: none; /* No border */
   border-radius: 20px; /* Rounded corners */
   font-size: 42px; /* Font size */
-  font-family: EB Garamond, Arial;
+  font-family: EB Garamond, Verdana, Arial;
   text-align: center;
   /*max-width: 400px; /* Maxwidth for bigscreens */
 }
@@ -78,12 +78,39 @@ body {
 
 
 
+.bar-interval {
+  width: 100%;
+  height: 30px;
+  padding-top: 0;
+  background: linear-gradient(to right, rgb(128, 228, 228) 0%, rgb(33, 43, 187) 85%), lightblue;
+  /*linear-gradient(to right, rgb(35, 89, 190) 0%, red 85%)*/
+  border-radius: 15px;
+}
 
 
 
+.circle-marker {
+  position: relative;
+  display: inline-block;
+  top: -3px;
+  height: 30px;
+  width: 30px;
+  background-color: rgba(0,0,0,0);
+  border: 3px solid #fff;
+  border-radius: 50%;
+  
+}
 
 
 
-
-
-
+.bar-label {
+  width: 55%;
+  background-color: rgb(7, 104, 165);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  text-align: center;
+  font-size: 28px;
+  font-family: EB Garamond, Verdana, Arial;
+  margin-bottom: -20px;
+}
