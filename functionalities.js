@@ -86,7 +86,7 @@ addEventListener('touchmove', (e) => {
   if(j==-1) return;
 
   //Dispatch a mouse event
-  //e.preventDefault();
+  e.preventDefault();
   dispatchEvent(new MouseEvent("mousemove", {
     bubbles: true,
     cancelable: true,
