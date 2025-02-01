@@ -201,10 +201,11 @@ dwnl_btn.addEventListener('click', (ev) => {
             link.click();
             
             //Download (Telegram method)
-            Telegram.WebApp.downloadFile({
-              url: link.href,
-              file_name: link.download
-            });
+            //Telegram.WebApp.downloadFile({
+            //  url: link.href,
+            //  file_name: link.download
+            //});
+            Telegram.WebApp.showPopup(link.href);
 });
 
 
