@@ -205,7 +205,7 @@ dwnl_btn.addEventListener('click', (ev) => {
             //  url: link.href,
             //  file_name: link.download
             //});
-            Telegram.WebApp.showPopup(link.href);
+            Telegram.WebApp.showPopup(link.download);
 });
 
 
