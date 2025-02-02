@@ -13,9 +13,13 @@ const ctx_logo= cnv_logo.getContext("2d");
 var img_chrgd= false;
 var logo_chrgd= false;
 
-//Util variables
+//Image variables
 var f_name;
 var W, H;
+const base_img= new Image();
+const logo_img= new Image();
+
+//Parameters
 var obj_logo= {
   opacity: 0.25, //0: transparent, 1: opaque
   scale: 0.3, // 1: actual size of logo
@@ -24,6 +28,8 @@ var obj_logo= {
 };
 var prms= ["opacity", "scale", "posX", "posY"];
 var pressed_bars= [];
+var clicked_bars= [];
+
 var original_color_bars;
 
 
@@ -41,6 +47,7 @@ addEventListener("load", (e)=> {
       
       mark.style.left= ( obj_logo[prms[j]] * (i_bar.offsetWidth - d_circ) )+ "px";
       pressed_bars[j]= false;
+      clicked_bars[j]= false;
       
       if(j==0) original_color_bars= i_bar.style.background; //Save the original background
       
@@ -69,6 +76,7 @@ addEventListener('mousemove', (e) => {
   var j= pressed_bars.findIndex((elem) => elem);
   if(j==-1) return; //Exit if no bar is pressed
   
+  clicked_bars[j] = false;
   var marker = document.querySelectorAll('.bar-interval')[j].querySelector('.circle-marker');
   
   //Just move when imgs have been loaded
@@ -86,7 +94,7 @@ addEventListener('touchmove', (e) => {
   if(j==-1) return;
 
   //Dispatch a mouse event
-  e.preventDefault();
+  //e.preventDefault();
   dispatchEvent(new MouseEvent("mousemove", {
     bubbles: true,
     cancelable: true,
@@ -112,27 +120,19 @@ img_btn.addEventListener("change", (ev)=> {
     return;
   }
   
-
+  
   //When the file is loaded, we follow with the algorithm
   const reader = new FileReader();
   f_name= file.name;
   
   reader.onload = (e) => {
-      const img = new Image();
       
-      img.onload = () => {
-          // Adjust size of image's canvas
-          cnv.width = img.width;
-          cnv.height = img.height;
-          W= cnv.width; H= cnv.height;
-
-          // Draw the image in the canvas
-          ctx.drawImage(img, 0, 0);
-      };
-      img.src = e.target.result;
+      base_img.onload = () => draw_base(base_img);
+      base_img.src = e.target.result;
   };
   reader.readAsDataURL(file);
 
+  //if(logo_chrgd) draw_logo(logo_img); //If logo is already charged, draw it over the base image
   enable_button(logo_btn.parentNode);
   img_chrgd= true;
 });
@@ -151,9 +151,11 @@ logo_btn.addEventListener("change", (ev)=> {
     return;
   }
   
-  //Force the img_btn to redraw the base image, to erase the old logo
-  if(logo_chrgd) img_btn.dispatchEvent(new Event("change"));
+  
+  //Force the img_btn to repaint the base image, to erase the old logo
+  if(logo_chrgd) draw_base(base_img);
   else {
+    // If logo isn't charged (the first time when this event happens), change the color of interval bars
     document.querySelectorAll('.bar-interval').forEach((i_bar) => {i_bar.style.background= original_color_bars;} )
   }
   
@@ -162,10 +164,9 @@ logo_btn.addEventListener("change", (ev)=> {
   const reader = new FileReader();
   
   reader.onload = (e) => {
-      const img = new Image();
       
-      img.onload = () => draw_logo(img);
-      img.src = e.target.result;
+      logo_img.onload = () => draw_logo(logo_img);
+      logo_img.src = e.target.result;
   };
   reader.readAsDataURL(file);
 
@@ -176,7 +177,7 @@ logo_btn.addEventListener("change", (ev)=> {
 
 
 //Prevent logo click if image is not charged
-logo_btn.addEventListener('click', (eve) => {
+logo_btn.addEventListener('click', (e) => {
   if(!img_chrgd) { e.preventDefault(); return; }
 });
 
@@ -202,10 +203,9 @@ dwnl_btn.addEventListener('click', (ev) => {
             
             //Download (Telegram method)
             Telegram.WebApp.downloadFile({
-              url: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh0C6_cMMZ_itfdSqB0p4QbE6ULaY096SFnAVuI8WDHf_K26YotAmnanQigFkWOBJ65I8i9HElTgt_-BaEntFPZrhKuaH7Q1j1Rfa7KwV4DmRqGiCHQo7SV5mE7YLLCYiOkOdTIAlK5LoMV/s1600/gettyimages-590008648-612x612.jpg",
-              file_name: "pufflefish.jpg"
+              url: link.href,
+              file_name: link.download
             });
-            //Telegram.WebApp.showPopup({message: link.href, buttons:[{type: "ok"},{type: "close"}]});
 });
 
 
@@ -213,11 +213,12 @@ dwnl_btn.addEventListener('click', (ev) => {
 //Listeners for all the interval bars
 document.querySelectorAll('.bar-interval').forEach((i_bar, j) => {
   
-  //With click at a point of the bar, set the opacity level and move the mark circle
+  //With click at a point of the bar, set the corresponding level and move the mark circle
   i_bar.addEventListener('click', (e) => {
       //If some of the images has not been loaded, exit from the function
       if(!img_chrgd || !logo_chrgd) { return; }
-
+      
+      clicked_bars[j]= true; //Click this bar
       var marker = e.target.querySelector('.circle-marker');
       //If marker is null (it happens when the user clicks over the mark), stop the function
       if(marker === null) { return; }
@@ -225,8 +226,10 @@ document.querySelectorAll('.bar-interval').forEach((i_bar, j) => {
       //Move marker and set its corresponding variable
       move_marker(marker, e.clientX, j);
       
-      //Dispatch the logo file charger, to redraw the canvas
-      logo_btn.dispatchEvent(new Event("change"));
+      //Redraw the canvas and then draw the logo (NOT NEEDED BECAUSE IT'S EXECUTED BY MOUSEUP/TOUCHENDS)
+      draw_base(base_img);
+      draw_logo(logo_img);
+      clicked_bars[j]= false;
       
   });
   
@@ -282,16 +285,34 @@ function enable_button(btn_mask) {
 
 
 /**
-* Draws the logo with a degree of opacity over the base image
-* @param l_img The logo image
+* Draws the base image over the background canvas
+* @param img The base image
 */
-function draw_logo(l_img) {
+function draw_base(img) {
+          // Adjust size of image's canvas
+          cnv.width = img.width;
+          cnv.height = img.height;
+          W= cnv.width; H= cnv.height;
+
+          // Draw the image in the canvas
+          ctx.drawImage(img, 0, 0);
+          console.log("Base image drawn! Current time: "+ performance.now());
+}
+
+
+
+
+/**
+* Draws the logo with a degree of opacity over the base image
+* @param img The logo image
+*/
+function draw_logo(img) {
     //Width and height of LOGO image
-    var w= l_img.width; var h= l_img.height;
+    var w= img.width; var h= img.height;
     
     //Set the hidden canvas logo
     cnv_logo.width= w; cnv_logo.height= h;
-    ctx_logo.drawImage(l_img,0,0);
+    ctx_logo.drawImage(img,0,0);
     
     // Make transparent the canvas manipulating each pixel with the "data" property
     var logo_data= ctx_logo.getImageData(0,0,w,h);
@@ -304,6 +325,7 @@ function draw_logo(l_img) {
     
     //Draw the logo on the original context
     ctx.drawImage(cnv_logo, obj_logo["posX"]*W, obj_logo["posY"]*H, obj_logo["scale"]*W, obj_logo["scale"]*W *h/w );
+    console.log("Logo drawn! Current time: "+ performance.now());
 }
 
 
@@ -342,8 +364,15 @@ function move_marker(marker, x, j) {
 function unpress_bar() {
   var j= pressed_bars.findIndex((elem) => elem);
   if(j!=-1) {
-    logo_btn.dispatchEvent(new Event("change"));
+    //Repaint base image, and then draw the logo
+    if(!clicked_bars[j]) {
+      draw_base(base_img);
+      draw_logo(logo_img);
+    }
+    
+    //Unpress the bar
     pressed_bars[j] = false;
+    //clicked_bars[j] = false;
   }
 }
 
