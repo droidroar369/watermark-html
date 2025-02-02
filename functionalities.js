@@ -201,11 +201,11 @@ dwnl_btn.addEventListener('click', (ev) => {
             link.click();
             
             //Download (Telegram method)
-            //Telegram.WebApp.downloadFile({
-            //  url: link.href,
-            //  file_name: link.download
-            //});
-            Telegram.WebApp.showPopup({message: link.href, buttons:[{type: "ok"},{type: "close"}]});
+            Telegram.WebApp.downloadFile({
+              url: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh0C6_cMMZ_itfdSqB0p4QbE6ULaY096SFnAVuI8WDHf_K26YotAmnanQigFkWOBJ65I8i9HElTgt_-BaEntFPZrhKuaH7Q1j1Rfa7KwV4DmRqGiCHQo7SV5mE7YLLCYiOkOdTIAlK5LoMV/s1600/gettyimages-590008648-612x612.jpg",
+              file_name: "pufflefish.jpg"
+            });
+            //Telegram.WebApp.showPopup({message: link.href, buttons:[{type: "ok"},{type: "close"}]});
 });
 
 
