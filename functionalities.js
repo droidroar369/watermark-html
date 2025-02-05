@@ -201,16 +201,17 @@ dwnl_btn.addEventListener('click', (ev) => {
             link.href = cnv.toDataURL(`image/${extnsn}`);
             link.click();
 
+            if(window.navigator.userAgent.includes("Telegram"))
             Telegram.WebApp.showAlert("Navigator Agent: "+ window.navigator.userAgent+
                                      "\nurl first characters: "+ link.href.substring(0,15)+
                                      "\nurl length: "+ link.href.length);
+            else alert("You're not within Telegram App. Using web version instead");
             
             //Download (Telegram method)
             //Telegram.WebApp.downloadFile({
             //  url: link.href,
             //  file_name: link.download
             //});
-            if(!Telegram.WebApp.isActive) { console.log("This is not Telegram App"); return; }
             
             //downloadBlobImage(link.href, link.download);
 });
