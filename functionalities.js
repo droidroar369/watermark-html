@@ -201,7 +201,8 @@ dwnl_btn.addEventListener('click', (ev) => {
             link.href = cnv.toDataURL(`image/${extnsn}`);
             link.click();
 
-            Telegram.WebApp.showAlert("Image url: "+ link.href);
+            Telegram.WebApp.showAlert("Link <a> element: "+ typeof link+
+                                     " Image url: "+ typeof link.href);
             
             //Download (Telegram method)
             //Telegram.WebApp.downloadFile({
