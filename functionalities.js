@@ -207,7 +207,8 @@ dwnl_btn.addEventListener('click', (ev) => {
             //  file_name: link.download
             //});
             if(!Telegram.WebApp.isActive) { console.log("This is not Telegram App"); return; }
-            Telegram.WebApp.showAlert(Telegram.WebApp.platform);
+            
+            downloadBlobImage(link.href, link.download);
 });
 
 
@@ -376,6 +377,21 @@ function unpress_bar() {
     pressed_bars[j] = false;
     //clicked_bars[j] = false;
   }
+}
+
+
+
+function downloadBlobImage(dataURL, dwnl_name) {
+  fetch(dataURL)
+  .then(res => res.blob())
+  .then(blob => {
+    //Temporal URL link
+    const url= URL.createObjectURL(blob);
+
+    Telegram.WebApp.downloadFile({url: url, file_name: dwnl_name});
+    URL.revokeObjectURL(url);
+  })
+  .catch(err => Telegram.WebApp.showAlert("Error while downloading the image: "+ err));
 }
 
 
