@@ -206,6 +206,7 @@ dwnl_btn.addEventListener('click', (ev) => {
             //  url: link.href,
             //  file_name: link.download
             //});
+            if(!Telegram.WebApp.isActive) { console.log("This is not Telegram App"); return; }
             Telegram.WebApp.showAlert(Telegram.WebApp.platform);
 });
 
