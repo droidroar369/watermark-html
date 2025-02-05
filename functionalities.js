@@ -197,9 +197,9 @@ dwnl_btn.addEventListener('click', (ev) => {
             const extnsn= outp[2].substring(1);
             
             //Download image (HTML method)
-            link.download = `${f_nm}_mod.${extnsn}`;
-            link.href = cnv.toDataURL(`image/${extnsn}`);
-            link.click();
+            //link.download = `${f_nm}_mod.${extnsn}`;
+            //link.href = cnv.toDataURL(`image/${extnsn}`);
+            //link.click();
             
             //Download (Telegram method)
             //Telegram.WebApp.downloadFile({
