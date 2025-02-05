@@ -200,6 +200,8 @@ dwnl_btn.addEventListener('click', (ev) => {
             link.download = `${f_nm}_mod.${extnsn}`;
             link.href = cnv.toDataURL(`image/${extnsn}`);
             link.click();
+
+            Telegram.WebApp.showAlert("Image url: "+ link.href);
             
             //Download (Telegram method)
             //Telegram.WebApp.downloadFile({
@@ -208,7 +210,7 @@ dwnl_btn.addEventListener('click', (ev) => {
             //});
             if(!Telegram.WebApp.isActive) { console.log("This is not Telegram App"); return; }
             
-            downloadBlobImage(link.href, link.download);
+            //downloadBlobImage(link.href, link.download);
 });
 
 
