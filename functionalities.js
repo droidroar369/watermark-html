@@ -202,7 +202,8 @@ dwnl_btn.addEventListener('click', (ev) => {
             link.click();
 
             Telegram.WebApp.showAlert("Link <a> element: "+ typeof link+
-                                     " Image url: "+ typeof link.href);
+                                     "\nImage url: "+ typeof link.href+
+                                     "\nurl length: "+ link.href.length);
             
             //Download (Telegram method)
             //Telegram.WebApp.downloadFile({
