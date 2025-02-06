@@ -199,13 +199,12 @@ dwnl_btn.addEventListener('click', (ev) => {
             //Download image (HTML method)
             link.download = `${f_nm}_mod.${extnsn}`;
             link.href = cnv.toDataURL(`image/${extnsn}`);
-            link.click();
 
             if(window.navigator.userAgent.includes("Telegram"))
             Telegram.WebApp.showAlert("Navigator Agent: "+ window.navigator.userAgent+
-                                     "\nurl first characters: "+ link.href.substring(0,15)+
+                                     "\nurl first characters: "+ link.href.substring(0,25)+
                                      "\nurl length: "+ link.href.length);
-            else alert("You're not within Telegram App. Using web version instead");
+            else link.click(); // Web download
             
             //Download (Telegram method)
             //Telegram.WebApp.downloadFile({
