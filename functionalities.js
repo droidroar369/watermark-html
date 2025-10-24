@@ -42,7 +42,9 @@ addEventListener("load", (e)=> {
   //Set position of circle markers for each level bar
   document.querySelectorAll(".bar-interval").forEach((i_bar,j) => {
       //When the circle marks are loaded, position them at their initial values
-      var mark= i_bar.querySelector('.circle-marker');
+      var mark= document.createElement('span');
+      mark.className= 'circle-marker';
+      i_bar.appendChild(mark);
       var d_circ= mark.getBoundingClientRect().width;
       
       mark.style.left= ( obj_logo[prms[j]] * (i_bar.offsetWidth - d_circ) )+ "px";
@@ -71,39 +73,12 @@ addEventListener("touchend", unpress_bar);
 
 
 //When mouse is moving if some bar is pressed, move its mark
-addEventListener('mousemove', (e) => {
-  //Detect the pressed bar
-  var j= pressed_bars.findIndex((elem) => elem);
-  if(j==-1) return; //Exit if no bar is pressed
-  
-  clicked_bars[j] = false;
-  var marker = document.querySelectorAll('.bar-interval')[j].querySelector('.circle-marker');
-  
-  //Just move when imgs have been loaded
-  if(!img_chrgd || !logo_chrgd || marker===null) { return; }
-  
-  move_marker(marker, e.clientX, j); //Move the mark and set the level of its variable
-  
-});
+addEventListener('mousemove', (e) => {moving_cursor(e);});
 
 
 
 //Movility for touch devices. If there's movement while screen is pulsed, call the mousemove listener
-addEventListener('touchmove', (e) => {
-  var j= pressed_bars.findIndex((elem) => elem);
-  if(j==-1) return;
-
-  //Dispatch a mouse event
-  //e.preventDefault();
-  dispatchEvent(new MouseEvent("mousemove", {
-    bubbles: true,
-    cancelable: true,
-    clientX: e.touches[0].clientX,
-    clientY: e.touches[0].clientY
-  }));
-  
-});
-
+addEventListener('touchmove', (e) => {moving_cursor(e);});
 
 
 
@@ -199,20 +174,13 @@ dwnl_btn.addEventListener('click', (ev) => {
             //Download image (HTML method)
             link.download = `${f_nm}_mod.${extnsn}`;
             link.href = cnv.toDataURL(`image/${extnsn}`);
-
-            if(window.navigator.userAgent.includes("Telegram"))
-              Telegram.WebApp.showAlert("Navigator Agent: "+ window.navigator.userAgent+
-                                       "\nurl first characters: "+ link.href.substring(0,15)+
-                                       "\nurl length: "+ link.href.length);
-            else link.click(); // Web download
+            link.click();
             
             //Download (Telegram method)
-            //Telegram.WebApp.downloadFile({
-            //  url: link.href,
-            //  file_name: link.download
-            //});
-            
-            //downloadBlobImage(link.href, link.download);
+            Telegram.WebApp.downloadFile({
+              url: link.href,
+              file_name: link.download
+            });
 });
 
 
@@ -337,6 +305,29 @@ function draw_logo(img) {
 
 
 
+/**
+ * Function event while moving the cursor
+ * @param e The mousemove or touchmove event
+ */
+function moving_cursor(e) {
+  //Detect the pressed bar
+  var j= pressed_bars.findIndex((elem) => elem);
+  if(j==-1) return; //Exit if no bar is pressed
+  
+  clicked_bars[j] = false;
+  var marker = document.querySelectorAll('.bar-interval')[j].querySelector('.circle-marker');
+  
+  //Just move when imgs have been loaded
+  if(!img_chrgd || !logo_chrgd || marker===null) { return; }
+  
+  //Move the mark and set the level of its variable
+  if(e.type=="mousemove") move_marker(marker, e.clientX, j);
+  else if(e.type=="touchmove") move_marker(marker, e.touches[0].clientX, j);
+  
+}
+
+
+
 
 /**
  * Moves the circle marker within an interval bar, and sets the reletive level (lvl in [0:1]) according to its position
@@ -345,13 +336,12 @@ function draw_logo(img) {
  * @param j The bar index whose level will be changed
  */
 function move_marker(marker, x, j) {
-    var rect = marker.getBoundingClientRect();
-    var d_circ= rect.width; //Diameter of circle
+    var d_circ= marker.getBoundingClientRect().width; //Diameter of circle
     var i_bar= marker.parentNode; //Interval bar
     var L= i_bar.offsetWidth - d_circ; //Length of bar
     
     //Left X coordinate for the circle
-    var markX = x - i_bar.style.left - 0.8*d_circ;
+    var markX = x - i_bar.getBoundingClientRect().left - 0.5*d_circ;
     markX= (markX<0)? 0: markX;
     markX= (markX>L)? L: markX;
     
@@ -381,21 +371,6 @@ function unpress_bar() {
     pressed_bars[j] = false;
     //clicked_bars[j] = false;
   }
-}
-
-
-
-function downloadBlobImage(dataURL, dwnl_name) {
-  fetch(dataURL)
-  .then(res => res.blob())
-  .then(blob => {
-    //Temporal URL link
-    const url= URL.createObjectURL(blob);
-
-    Telegram.WebApp.downloadFile({url: url, file_name: dwnl_name});
-    URL.revokeObjectURL(url);
-  })
-  .catch(err => Telegram.WebApp.showAlert("Error while downloading the image: "+ err));
 }
 
 
